@@ -66,6 +66,9 @@
 			message_admins("An SSD player has died. [real_name]([alert_ssd])")
 			log_game("An SSD player has died. [real_name]([alert_ssd])")
 			log_attack("An SSD player has died. [real_name]([alert_ssd])")
+		else
+			log_game("A player has died. [real_name]([alert_ssd])")
+			log_attack("A player has died. [real_name]([alert_ssd])")
 	unset_machine()
 	timeofdeath = world.time
 	tod = station_time_timestamp()

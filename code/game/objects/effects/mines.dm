@@ -137,6 +137,7 @@
 	chainsaw.wield(victim)
 	victim.reagents.add_reagent("adminordrazine",25)
 	to_chat(victim, "<span class='warning'>KILL, KILL, KILL! YOU HAVE NO ALLIES ANYMORE, KILL THEM ALL!</span>")
+	log_game("[victim.real_name]([victim.ckey]) has been effected by the bloodbath effect, they can freely kill untill cancelled.")
 
 	victim.client.color = pure_red
 	animate(victim.client,color = red_splash, time = 10, easing = SINE_EASING|EASE_OUT)
@@ -144,6 +145,7 @@
 	animate(victim.client,color = old_color, time = duration)//, easing = SINE_EASING|EASE_OUT)
 	sleep(duration)
 	to_chat(victim, "<span class='notice'>Your bloodlust seeps back into the bog of your subconscious and you regain self control.</span>")
+	log_game("[victim.real_name]([victim.ckey])'s bloodbath effect has wore off. They can no longer freely kill.")
 	qdel(chainsaw)
 	qdel(src)
 

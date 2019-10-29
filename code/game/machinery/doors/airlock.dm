@@ -767,6 +767,9 @@
 			return
 
 		secondsElectrified -= 1
+		if(secondsElectrified < 0)
+			secondsElectrified = 0
+			return
 		updateDialog()
 	// This is to protect against changing to permanent, mid loop.
 	if(secondsElectrified==0)

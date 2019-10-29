@@ -250,7 +250,7 @@ GLOBAL_LIST_EMPTY(hub_features)
 
 //borgs can now unbuckle.
 /atom/movable/attack_robot(mob/living/user)
-	if(can_buckle && has_buckled_mobs())
+	if(Adjacent(user) && can_buckle && has_buckled_mobs())
 		return attack_hand(user)
 	else
 		return ..()

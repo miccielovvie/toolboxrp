@@ -77,6 +77,7 @@
 	permeability_coefficient = 0
 	flags_cover = MASKCOVERSEYES
 	resistance_flags = FIRE_PROOF | ACID_PROOF
+	allow_eat = 1
 
 /obj/item/clothing/mask/gas/perseus_voice/disguise_voice()
 	if(istype(loc,/mob/living/carbon))
@@ -215,6 +216,7 @@
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	flags_inv = 0
 	armor = list("melee" = 35, "bullet" = 30, "laser" = 30, "energy" = 10, "bomb" = 25, "bio" = 0, "rad" = 0)
+	allow_eat = 1
 /*
 * Perseus Helmet
 */
@@ -230,6 +232,7 @@
 	flags_inv = HIDEFACE | HIDEHAIR
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	armor = list("melee" = 35, "bullet" = 30, "laser" = 30, "energy" = 10, "bomb" = 25, "bio" = 0, "rad" = 0)
+	allow_eat = 1
 
 /*
 * Perseus Winter Coat

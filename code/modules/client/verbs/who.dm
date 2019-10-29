@@ -94,8 +94,9 @@
 			msg += "\n"
 	else
 		for(var/client/C in GLOB.admins)
-			if(C.is_afk())
-				continue //Don't show afk admins to adminwho
+			//yes show afk online admins. thats dumb. - falaskian
+			//if(C.is_afk())
+			//	continue //Don't show afk admins to adminwho
 			if(!C.holder.fakekey)
 				msg += "\t[C] is a [C.holder.rank]\n"
 		msg += "<span class='info'>Adminhelps are sent to Toolbox Discord. If no admins are available in game adminhelp anyways and an admin on Discord will see it and respond.</span>"

@@ -130,6 +130,7 @@
 	var/lastRTDtime = 0
 	var/cannonmode = FALSE
 	var/cannonbusy = FALSE
+	var/last_cannonmode = 0 //making cannon mode unspamable.
 
 /obj/vehicle/sealed/car/clowncar/generate_actions()
 	. = ..()
@@ -375,6 +376,9 @@
 
 //cannon abilities
 /obj/vehicle/sealed/car/clowncar/proc/ToggleCannon()
+	if(last_cannonmode && last_cannonmode+30 > world.time)
+		return
+	last_cannonmode = world.time
 	cannonbusy = TRUE
 	if(cannonmode)
 		cannonmode = FALSE
@@ -395,6 +399,7 @@
 	mouse_pointer = 'icons/mecha/mecha_mouse.dmi'
 	cannonmode = TRUE
 	cannonbusy = FALSE
+	canmove = FALSE
 	for(var/mob/living/L in return_controllers_with_flag(VEHICLE_CONTROL_DRIVE))
 		update_mouse_pointer(L)
 

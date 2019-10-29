@@ -292,6 +292,11 @@
 /mob/living/ex_act(severity, target, origin)
 	if(origin && istype(origin, /datum/spacevine_mutation) && isvineimmune(src))
 		return
+	if(ckey)
+		var/logtext = "hit by explosion. Severity: [severity]"
+		if(origin)
+			logtext += " Origin [origin]"
+		log_message("<font color='red'>[logtext]</font>", INDIVIDUAL_ATTACK_LOG)
 	..()
 
 //Looking for irradiate()? It's been moved to radiation.dm under the rad_act() for mobs.

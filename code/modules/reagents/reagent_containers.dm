@@ -48,6 +48,9 @@
 /obj/item/reagent_containers/afterattack(obj/target, mob/user , flag)
 	return
 
+/obj/item
+	var/allow_eat = 0 //force the item when worn on the head or mask to allow the user to eat -falaskian
+
 /obj/item/reagent_containers/proc/canconsume(mob/eater, mob/user)
 	if(!iscarbon(eater))
 		return 0
@@ -55,8 +58,12 @@
 	var/covered = ""
 	if(C.is_mouth_covered(head_only = 1))
 		covered = "headgear"
+		if(C.head && C.head.allow_eat)
+			covered = ""
 	else if(C.is_mouth_covered(mask_only = 1))
 		covered = "mask"
+		if(C.wear_mask && C.wear_mask.allow_eat)
+			covered = ""
 	if(covered)
 		var/who = (isnull(user) || eater == user) ? "your" : "[eater.p_their()]"
 		to_chat(user, "<span class='warning'>You have to remove [who] [covered] first!</span>")

@@ -194,6 +194,10 @@
 			cost = IC.materials[MAT_METAL]
 		else if(ispath(build_type, /obj/item/device/integrated_electronics))
 			cost = 10000
+		else if(!(build_type in SScircuit.circuit_fabricator_recipe_list["[current_category]"]))
+			message_admins("[usr.real_name]([usr.ckey]) has attempted to href exploit the circuit imprinter to produce an illegal item (A [build_type]).")
+			log_game("[usr.real_name]([usr.ckey]) has attempted to href exploit the circuit imprinter to produce an illegal item (A [build_type]).")
+			return
 		else
 			return
 		var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
