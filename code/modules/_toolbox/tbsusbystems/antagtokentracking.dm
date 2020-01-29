@@ -151,3 +151,6 @@ SUBSYSTEM_DEF(antagtokens)
 		if(Sminutes)
 			Sminutes["minutes_tracked"] << minutes_tracked
 
+/datum/controller/subsystem/antagtokens/Shutdown()
+	. = ..()
+	wipe_cached_tokens()

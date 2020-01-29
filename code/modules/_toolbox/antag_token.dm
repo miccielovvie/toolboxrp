@@ -98,6 +98,14 @@ client/verb/check_antag_token()
 			if(!(antagtype in choices))
 				to_chat(src, "<B>The antagonist role [antagtype] is unavailable right now.</B>")
 				return
+			var/list/roles_names = list(
+				"traitor" = ROLE_TRAITOR,
+				"changeling" = ROLE_CHANGELING,
+				"cult" = ROLE_CULTIST,
+				"revs" = ROLE_REV_HEAD)
+			if((antagtype in roles_names) && jobban_isbanned(mob, roles_names[antagtype]))
+				to_chat(mob, "<B>You are currently banned from this antagonist role.</B>")
+				return
 			switch(antagtype)
 				if("traitor")
 					if(istype(mob,/mob/living/carbon/human))

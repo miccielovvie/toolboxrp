@@ -176,7 +176,8 @@
 			to_chat(pilot,"\icon[src] <font color='green'><b>\[[src.name]\]</b> states, \"[message]\"</font>")
 
 	proc/PrintSystemAlert(var/message = "")
-		if(pilot)
+		if(pilot && (world.time >= (last_system_message_time+system_message_delay)))
+			last_system_message_time = world.time
 			to_chat(pilot,"\icon[src] <font color='red'><b>\[[src.name]\]</b> states, \"[message]\"</font>")
 
 	proc/GetAttachments()

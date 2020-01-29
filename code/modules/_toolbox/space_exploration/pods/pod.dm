@@ -41,6 +41,9 @@
 
 	var/datum/pod_log/pod_log
 
+	var/last_system_message_time = 0
+	var/system_message_delay = 20
+
 	Initialize()
 		..()
 
