@@ -19,9 +19,17 @@
 
 /obj/vehicle/sealed/car/Initialize()
 	. = ..()
+	START_PROCESSING(SSobj, src)
 	var/datum/component/riding/D = LoadComponent(/datum/component/riding)
 	D.vehicle_move_delay = movedelay
 	D.slowvalue = 0
+
+//mobs that leave by other means will no longer be stuck in the occupants list. -falaskian
+/obj/vehicle/sealed/car/process()
+	. = ..()
+	for(var/mob/M in occupants)
+		if(M.loc != src)
+			remove_occupant(M)
 
 /obj/vehicle/sealed/car/driver_move(mob/user, direction)
 	if(key_type && !is_key(inserted_key))

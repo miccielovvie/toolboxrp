@@ -610,3 +610,62 @@ var/global/list/backup_admin_verbs = list(
 			P.save_preferences()
 			message_admins("[usr.key] has reset all overridden jobs based on played time for [selectedckey].")
 			log_game("[usr.key] has reset all overridden jobs based on played time for [selectedckey].")
+
+//Activating an away mission mid round.
+/datum/admins/proc/spawn_awaymission()
+	set name = "Create Away Mission"
+	set category = "Server"
+	if(GLOB.awaydestinations.len)
+		to_chat(usr,"<B>An away mission is already active.</B>")
+		return
+	var/awaymissionconfigfilelocation = "[global.config.directory]/awaymissionconfig.txt"
+	var/list/Lines = world.file2list(awaymissionconfigfilelocation)
+	var/list/final_list = list()
+	for(var/t in Lines)
+		t = trim(t)
+		if (length(t) == 0)
+			continue
+		var/startcharacter = 1
+		if (copytext(t, 1, 2) == "#")
+			startcharacter = 2
+		if(!findtext(t,"_maps/RandomZLevels/",startcharacter,length(t)+1))
+			continue
+		var/theline = copytext(t, startcharacter,length(t)+1)
+		if(!theline || !fexists(theline))
+			continue
+		final_list += theline
+	if(final_list.len)
+		var/userkey = usr.key
+		var/confirm = alert(usr,"Do you wish to create an away mission?","Create Away Mission","Yes","No")
+		if(confirm != "Yes")
+			return
+		if(GLOB.awaydestinations.len)
+			to_chat(usr,"<B>An away mission is already active.</B>")
+			return
+		var/selectedawaymission = input(usr,"Choose an away mission file.","Create Away Mission",null) as null|anything in final_list
+		if(!selectedawaymission || !(selectedawaymission in final_list))
+			return
+		if(GLOB.awaydestinations.len)
+			to_chat(usr,"<B>An away mission is already active.</B>")
+			return
+		message_admins("[userkey] has spawned an away mission. \"[selectedawaymission]\" selected.")
+		log_game("[userkey] has spawned an away mission. \"[selectedawaymission]\" selected.")
+		GLOB.potentialRandomZlevels.Add(selectedawaymission)
+		to_chat(world, "<span class='boldannounce'>Loading away mission...</span>")
+		load_new_z_level(selectedawaymission, "Away Mission")
+		to_chat(world, "<span class='boldannounce'>Away mission loaded.</span>")
+		var/obj/machinery/gateway/centerstation/centerstation
+		for(var/obj/machinery/gateway/G in world)
+			G.randomspawns = GLOB.awaydestinations
+			if(istype(G,/obj/machinery/gateway/centerstation))
+				centerstation = G
+		if(centerstation)
+			centerstation.calibrated = 0
+			centerstation.Initialize()
+			var/minutestimeleft = round(((centerstation.wait-world.time)/10)/60,1)
+			var/gettime = input(usr,"Minutes untill the gateway becomes available.","Create Away Mission",minutestimeleft) as num
+			gettime = max((gettime*60)*10,0)
+			if(isnum(gettime))
+				centerstation.wait = gettime
+	else
+		to_chat(usr,"<B>There are no away missions to spawn.</B>")

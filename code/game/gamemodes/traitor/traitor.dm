@@ -32,6 +32,7 @@
 	var/max_traitors = -1 //a limit on how many traitors there can be. leave as -1 to have no limit
 	var/block_late_join_traitors = 0
 
+	adapt_recommended_enemies_to_opt_ins = 1
 
 /datum/game_mode/traitor/pre_setup()
 

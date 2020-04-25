@@ -42,17 +42,30 @@
 	var/turf/T = get_turf(src)
 	T.visible_message("<font size=3 color=blue><b>Hallelujah!</b></font>")
 
-/mob/living/carbon/human/jesus/verb/heal(mob/living/carbon/M as mob in view(7))
+/mob/living/carbon/human/jesus/verb/heal()
 	set category = " Space Jesus"
 	set name = "Heal"
 	set desc = "Perform a miracle."
-
 	/*if (!check_rights(R_REJUVINATE))
 		return*/
-
-	var/mob/living/L = M
+	var/list/surrounding = list()
+	for(var/mob/living/M in view(7,src))
+		var/thename = "Noname"
+		if(M.name)
+			thename = "[M.name]"
+		if(M.real_name && M.name != M.real_name)
+			thename += "([M.real_name])"
+		switch(M.stat)
+			if(DEAD)
+				thename += "(DEAD)"
+			if(UNCONSCIOUS)
+				thename += "(UNCONSCIOUS)"
+		if(M == src)
+			thename += "(YOU)"
+		surrounding[avoid_assoc_duplicate_keys(thename, surrounding)] = M
+	var/mob/living/L = surrounding[input(usr,"Select who to heal.","Heal",src) as null|anything in surrounding]
 	if(!istype(L))
-		to_chat(usr, "This can only be used on instances of type /mob/living.")
+		to_chat(usr, "This can only be used on beings.")
 		return
 
 	L.revive(full_heal = 1, admin_revive = 1)

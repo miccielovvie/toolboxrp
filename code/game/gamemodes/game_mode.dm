@@ -52,6 +52,8 @@
 
 	var/minimum_enemies = 0
 
+	var/adapt_recommended_enemies_to_opt_ins = 0 //Added to prevent people who dont opt in to the antag role from getting this antag -falaskian
+
 /datum/game_mode/proc/announce() //Shows the gamemode's name and a fast description.
 	to_chat(world, "<b>The gamemode is: <span class='[announce_span]'>[name]</span>!</b>")
 	to_chat(world, "<b>[announce_text]</b>")
@@ -381,6 +383,9 @@
 				if(!jobban_isbanned(player, ROLE_SYNDICATE) && !jobban_isbanned(player, role)) //Nodrak/Carn: Antag Job-bans
 					if(age_check(player.client)) //Must be older than the minimum age
 						candidates += player.mind				// Get a list of all the people who want to be the antagonist for this round
+
+	if(adapt_recommended_enemies_to_opt_ins)
+		recommended_enemies = candidates.len
 
 	if(restricted_jobs)
 		for(var/datum/mind/player in candidates)

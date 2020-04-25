@@ -297,7 +297,7 @@ Turf and target are separate in case you want to teleport some distance from a t
 			continue
 		var/name = avoid_assoc_duplicate_keys(M.name, namecounts)
 
-		if(M.real_name && M.real_name != M.name)
+		if(M.real_name && M.real_name != M.name && !check_perseus(M))//Only show real names if it is not a perseus player.
 			name += " \[[M.real_name]\]"
 		if(M.stat == DEAD)
 			if(isobserver(M))

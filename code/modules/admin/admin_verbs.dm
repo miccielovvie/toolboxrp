@@ -129,7 +129,8 @@ GLOBAL_LIST_INIT(admin_verbs_server, world.AVerbsServer())
 	/datum/admins/proc/manage_characterslots,
 	/datum/admins/proc/manage_perseus,
 	/datum/admins/proc/discord_bot_message,
-	/datum/admins/proc/override_unavailable_job
+	/datum/admins/proc/override_unavailable_job,
+	/datum/admins/proc/spawn_awaymission
 	)
 GLOBAL_PROTECT(admin_verbs_debug)
 GLOBAL_LIST_INIT(admin_verbs_debug, world.AVerbsDebug())

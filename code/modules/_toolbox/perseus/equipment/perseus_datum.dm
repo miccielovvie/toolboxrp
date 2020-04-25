@@ -21,6 +21,15 @@
 			return generate_perc_identifier(attempt+1)
 	return chosen
 
+//giving perseus to a mob for admin bus proc call purposes.
+/mob/living/carbon/proc/give_perseus()
+	var/datum/extra_role/perseus/E = give_extra_role(/datum/extra_role/perseus,0)
+	E.perc_identifier = generate_perc_identifier()
+
+/mob/living/carbon/proc/give_perseus_commander()
+	var/datum/extra_role/perseus/E = give_perseus()
+	E.give_commander()
+
 //************
 //Perseus Huds
 //************

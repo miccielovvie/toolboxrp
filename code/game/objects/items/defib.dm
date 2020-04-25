@@ -20,9 +20,10 @@
 	var/safety = TRUE //if you can zap people with the defibs on harm mode
 	var/powered = FALSE //if there's a cell in the defib with enough power for a revive, blocks paddles from reviving otherwise
 	var/obj/item/twohanded/shockpaddles/paddles
-	var/obj/item/stock_parts/cell/high/cell
+	var/obj/item/stock_parts/cell/cell
 	var/combat = FALSE //can we revive through space suits?
 	var/grab_ghost = TRUE // Do we pull the ghost back into their body?
+	var/cell_removable = 1
 
 /obj/item/defibrillator/get_cell()
 	return cell
@@ -30,15 +31,13 @@
 /obj/item/defibrillator/Initialize() //starts without a cell for rnd
 	. = ..()
 	paddles = make_paddles()
+	if(ispath(cell))
+		cell = new cell(src)
 	update_icon()
 	return
 
-/obj/item/defibrillator/loaded/Initialize() //starts with hicap
-	. = ..()
-	paddles = make_paddles()
-	cell = new(src)
-	update_icon()
-	return
+/obj/item/defibrillator/loaded
+	cell = /obj/item/stock_parts/cell/high //starts with hicap
 
 /obj/item/defibrillator/update_icon()
 	update_power()
@@ -111,6 +110,7 @@
 	if(W == paddles)
 		paddles.unwield()
 		toggle_paddles()
+		update_icon()
 	else if(istype(W, /obj/item/stock_parts/cell))
 		var/obj/item/stock_parts/cell/C = W
 		if(cell)
@@ -125,10 +125,10 @@
 			to_chat(user, "<span class='notice'>You install a cell in [src].</span>")
 			update_icon()
 
-	else if(istype(W, /obj/item/screwdriver))
+	else if(istype(W, /obj/item/screwdriver) && cell_removable)
 		if(cell)
 			cell.update_icon()
-			cell.forceMove(get_turf(src))
+			cell.forceMove(get_turf(user))
 			cell = null
 			to_chat(user, "<span class='notice'>You remove the cell from [src].</span>")
 			update_icon()
@@ -182,7 +182,8 @@
 		A.UpdateButtonIcon()
 
 /obj/item/defibrillator/proc/make_paddles()
-	return new /obj/item/twohanded/shockpaddles(src)
+	var/obj/item/twohanded/shockpaddles/P = new(src)
+	return P
 
 /obj/item/defibrillator/equipped(mob/user, slot)
 	..()
@@ -241,29 +242,24 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	slot_flags = SLOT_BELT
 
+/obj/item/defibrillator/compact/loaded
+	cell = /obj/item/stock_parts/cell/high
+
 /obj/item/defibrillator/compact/item_action_slot_check(slot, mob/user)
 	if(slot == user.getBeltSlot())
 		return TRUE
-
-/obj/item/defibrillator/compact/loaded/Initialize()
-	. = ..()
-	paddles = make_paddles()
-	cell = new(src)
-	update_icon()
 
 /obj/item/defibrillator/compact/combat
 	name = "combat defibrillator"
 	desc = "A belt-equipped blood-red defibrillator that can be rapidly deployed. Does not have the restrictions or safeties of conventional defibrillators and can revive through space suits."
 	combat = TRUE
 	safety = FALSE
+	cell_removable = 0
 
-/obj/item/defibrillator/compact/combat/loaded/Initialize()
-	. = ..()
-	paddles = make_paddles()
-	cell = new /obj/item/stock_parts/cell/infinite(src)
-	update_icon()
+/obj/item/defibrillator/compact/combat/loaded
+	cell = /obj/item/stock_parts/cell/infinite
 
-/obj/item/defibrillator/compact/combat/loaded/attackby(obj/item/W, mob/user, params)
+/obj/item/defibrillator/compact/combat/attackby(obj/item/W, mob/user, params)
 	if(W == paddles)
 		paddles.unwield()
 		toggle_paddles()
@@ -336,7 +332,8 @@
 	..()
 	if(check_defib_exists(mainunit, src) && req_defib)
 		defib = mainunit
-		forceMove(defib)
+		if(loc != defib)
+			forceMove(defib)
 		busy = FALSE
 		update_icon()
 
@@ -376,14 +373,12 @@
 	forceMove(defib)
 	defib.update_icon()
 
-/obj/item/twohanded/shockpaddles/proc/check_defib_exists(mainunit, mob/living/carbon/M, obj/O)
-	if(!req_defib)
-		return TRUE //If it doesn't need a defib, just say it exists
-	if (!mainunit || !istype(mainunit, /obj/item/defibrillator))	//To avoid weird issues from admin spawns
-		qdel(O)
-		return FALSE
-	else
-		return TRUE
+/obj/item/twohanded/shockpaddles/proc/check_defib_exists(mainunit)
+	. = TRUE
+	if (req_defib && !istype(mainunit, /obj/item/defibrillator))	//To avoid weird issues from admin spawns
+		. = FALSE
+		qdel(src)
+	return
 
 /obj/item/twohanded/shockpaddles/attack(mob/M, mob/user)
 
