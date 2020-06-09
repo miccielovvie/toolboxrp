@@ -352,3 +352,15 @@ GLOBAL_LIST_EMPTY(hub_features)
 				alert(client,"You are in control of another entity. You remember nothing that happened previously up until this point.","Memories Wiped.","Ok")
 		client.previous_mind = mind
 		client.previous_mob_type = type
+
+		if (client.prefs)
+			var/datum/preferences/prefs = client.prefs
+			if (!prefs.fps_asked) // Asks client if they want to try 60 fps
+				prefs.fps_asked = 1
+				if (prefs.clientfps <= 60)
+					var/response = alert(client, "We can see that your preferences are set to play at less than 60 FPS. Would you like to try 60 FPS?\nYou can change this in the future Preferences Tab -> Game Preferences -> FPS to 0 (for default).", "60 FPS Prompt - Once Only", "Yes", "No")
+					if (response == "Yes")
+						prefs.clientfps = 60
+						client.fps = 60
+
+				prefs.save_preferences()

@@ -124,6 +124,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/list/overridden_unavailable_jobs = list()
 
 	var/disable_windowed_admin_who_list = FALSE
+	var/fps_asked = 0
 
 /datum/preferences/New(client/C)
 	max_save_slots = GLOB.min_player_slots
