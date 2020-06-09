@@ -97,11 +97,11 @@
 /turf/open/proc/update_visuals()
 	var/list/new_overlay_types = tile_graphic()
 	var/list/atmos_overlay_types = src.atmos_overlay_types // Cache for free performance
-
+/*
 	#if DM_VERSION >= 513
 	#warning 512 is stable now for sure, remove the old code
 	#endif
-
+*/
 	#if DM_VERSION >= 512
 	if (atmos_overlay_types)
 		for(var/overlay in atmos_overlay_types-new_overlay_types) //doesn't remove overlays that would only be added

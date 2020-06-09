@@ -9,7 +9,7 @@
 	circuitry_removable = 0
 	PopulateContents()
 		..()
-		new /obj/item/clothing/shoes/combat(src)
+		new /obj/item/clothing/shoes/perseus(src)
 		new /obj/item/clothing/suit/armor/lightarmor(src)
 		new /obj/item/clothing/head/helmet/space/pershelmet(src)
 		new /obj/item/clothing/mask/gas/perseus_voice(src)
@@ -39,7 +39,7 @@
 		new /obj/item/clothing/suit/wintercoat/perseus(src)
 		new /obj/item/reagent_containers/food/drinks/bottle/whiskey(src)
 		new /obj/item/clothing/head/helmet/space/persberet(src)
-		new /obj/item/clothing/shoes/combat(src)
+		new /obj/item/clothing/shoes/perseus(src)
 		new /obj/item/clothing/under/space/skinsuit(src)
 		new /obj/item/clothing/suit/armor/lightarmor(src)
 		new /obj/item/clothing/mask/gas/perseus_voice(src)

@@ -358,10 +358,11 @@
 	else
 		var/md5 = md5(AM.name)
 		for (var/i in 1 to 32)
+/*
 			#if DM_VERSION >= 513
 			#warning 512 is definitely stable now, remove the old code
 			#endif
-
+*/
 			#if DM_VERSION >= 512
 			. += hex2num(md5[i])
 			#else
