@@ -357,7 +357,7 @@ GLOBAL_LIST_EMPTY(hub_features)
 			var/datum/preferences/prefs = client.prefs
 			if (!prefs.fps_asked) // Asks client if they want to try 60 fps
 				prefs.fps_asked = 1
-				if (prefs.clientfps <= 60)
+				if (prefs.clientfps < 60)
 					var/response = alert(client, "We can see that your preferences are set to play at less than 60 FPS. Would you like to try 60 FPS?\nYou can change this in the future Preferences Tab -> Game Preferences -> FPS to 0 (for default).", "60 FPS Prompt - Once Only", "Yes", "No")
 					if (response == "Yes")
 						prefs.clientfps = 60
