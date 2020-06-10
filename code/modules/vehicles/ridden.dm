@@ -6,6 +6,7 @@
 	default_driver_move = FALSE
 	var/legs_required = 2
 	var/arms_requires = 0	//why not?
+	density = 0 // bye bye
 
 /obj/vehicle/ridden/Initialize()
 	. = ..()
