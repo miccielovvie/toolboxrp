@@ -15,7 +15,7 @@
 /turf/open/indestructible
 	name = "floor"
 	icon = 'icons/turf/floors.dmi'
-	icon_state = "floor"
+	icon_state = "os6"
 
 /turf/open/indestructible/TerraformTurf(path, defer_change = FALSE, ignore_air = FALSE)
 	return

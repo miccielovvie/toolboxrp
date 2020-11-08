@@ -3,8 +3,8 @@
 /turf/closed/wall
 	name = "wall"
 	desc = "A huge chunk of metal used to separate rooms."
-	icon = 'icons/turf/walls/wall.dmi'
-	icon_state = "wall"
+	icon = 'icons/turf/walls/rwall.dmi'
+	icon_state = "r_wall"
 	explosion_block = 1
 
 	thermal_conductivity = WALL_HEAT_TRANSFER_COEFFICIENT
